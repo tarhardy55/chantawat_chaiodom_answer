@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html class="mobilesdk-console-app" lang="th">
+	<head>
+		<meta charset="utf-8">
+		<title>Chantawat-Chaiodom-Answer</title>
+		<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+		<script src="https://kit.fontawesome.com/5676d03799.js" crossorigin="anonymous"></script>
+	</head>
+	<body>
+		<div id="content-wrapper" style="padding-top: 50px;">
+			<section id="main">
+				<div class="container">
+					<section class="login-form" >
+						<form id="login-form" action="javascript:void(0)" method="post" @submit="getULogin" novalidate="true" v-if="!isSignIn">
+							<section>
+								<div v-if="errors.length" class="col-lg-12">
+								    <b>Please correct the following error(s):</b>
+								    <ul>
+								      <li v-for="error in errors">{{ error }}</li>
+								    </ul>
+								 </div>
+								<div class="form-group row ">
+									<label class="col-lg-3 form-control-label">User</label>
+									<div class="col-lg-6"><input v-model="email" class="form-control" name="email" type="text" value="" ></div>
+								</div>     
+								<div class="form-group row ">
+									<label class="col-lg-3 form-control-label required">Password</label>
+									<div class="col-lg-6">
+										<input v-model="password" class="form-control" name="password" title="At least 5 characters long" type="password" value="" pattern=".{5,}" >
+									</div>
+								</div>      
+							</section>
+							<footer class="form-footer text-sm-center clearfix">
+								<input type="hidden" name="submitLogin" value="1">
+
+								<button id="submit-login" class="btn btn-primary" data-link-action="sign-in" type="submit">Sign in</button>
+							</footer>
+						</form>
+					</section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+					<section class="user-form">
+						
+						<form id="user-form" action="index.html" method="post" @submit="SaveUserData" novalidate="true" v-if="isSignIn">
+							<div class="row">
+								<div class="col-10">
+									Welcome {{isSignIn}}
+								</div>
+								<div class="col-2 text-right">
+									<a id="user-singout" class="btn btn-secondary" href="#" @click="getULogout()">Sign out</a>
+								</div>
+							</div>
+							<h2>New User</h2>
+							<section>
+								<div class="row">
+									<div v-if="errors.length" class="col-lg-12">
+									    <b>Please correct the following error(s):</b>
+									    <ul>
+									      <li v-for="error in errors">{{ error }}</li>
+									    </ul>
+									 </div>
+									<div class="user-user  col-lg-6">
+										<div class="form-group row ">
+											<label class="col-lg-3 form-control-label required">User</label>
+											<div class="col-lg-6"><input v-model="username" class="form-control" name="username" type="text" value="" ></div>
+										</div>
+									</div>
+									<div class="user-password  col-lg-6">
+										<div class="form-group row ">
+											<label class="col-lg-3 form-control-label required"><span v-if="userid">New </span>Password</label>
+											<div class="col-lg-6">
+												<div class="input-group js-parent-focus">
+													<input v-model="newpassword" class="form-control" name="newpassword" title="At least 5 characters long" type="password" value="" >
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="user-fname  col-lg-4">
+										<div class="form-group row ">
+											<label class="col-lg-12 form-control-label required">First name</label>
+											<div class="col-lg-12"><input v-model="fname" class="form-control" name="fname" type="text" value="" ></div>
+										</div>
+									</div>
+									<div class="user-lname  col-lg-4">
+										<div class="form-group row ">
+											<label class="col-lg-12 form-control-label required">Last name</label>
+											<div class="col-lg-12"><input v-model="lname" class="form-control" name="lname" type="text" value="" ></div>
+										</div>
+									</div>
+									<div class="user-age  col-lg-2">
+										<div class="form-group row ">
+											<label class="col-lg-12 form-control-label required">age</label>
+											<div class="col-lg-12"><input v-model="age" class="form-control" name="age" type="text" value="" min="0"></div>
+										</div>
+									</div>
+									<div class="user-tel  col-lg-2">
+										<div class="form-group row ">
+											<label class="col-lg-12 form-control-label required">Phone</label>
+											<div class="col-lg-12"><input v-model="tel" class="form-control" name="tel" type="text" value="" ></div>
+										</div>
+									</div>
+									<div class="user-address col-lg-12">
+										<div class="form-group row ">
+											<label class="col-lg-12 form-control-label required">address</label>
+											<div class="col-lg-12"><input v-model="address" class="form-control" name="address" type="text" value="" ></div>
+										</div>
+									</div>
+								</div>    
+							</section>
+							<footer class="form-footer text-md-center clearfix">
+								<input type="hidden" name="userid" value="0" v-model="userid">
+								<input type="hidden" name="password" value="0" v-model="password">
+								<button id="submit-save" class="btn btn-primary" data-link-action="save-user" type="submit">save</button>
+							</footer>
+							<p>&nbsp;</p>
+							<hr>
+							<p>&nbsp;</p>
+							<div class="card" v-for="useritem in userdataS">
+								<div class="card-body">
+									<div class="row">
+										<div class="user-user col-lg-4">
+											User: <span>{{useritem.username}}</span>
+										</div>
+										<div class="user-fname col-lg-3">
+										First name: <span>{{useritem.fname}}</span>
+										</div>
+										<div class="user-lname col-lg-3">
+										Last name: <span>{{useritem.lname}}</span>
+										</div>
+										<div class="user-address col-lg-2 text-center text-md-center">
+											<a id="user-edit" class="btn btn-primary" href="#" @click="editUser(useritem)"><i class="fa fa-user-edit"></i></a>
+											<a id="user-del" class="btn btn-secondary" href="#" @click="delUser(useritem)"><i class="fa fa-trash-alt"></i></a>
+										</div>
+									</div>
+								</div>
+							</div>
+						</form>
+					</section>
+					
+				</div>
+			</section>
+		</div>
+	</body>
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+	<!-- The core Firebase JS SDK is always required and must be listed first -->
+	<script src="https://www.gstatic.com/firebasejs/7.2.3/firebase.js"></script>
+
+	<!-- TODO: Add SDKs for Firebase products that you want to use
+	     https://firebase.google.com/docs/web/setup#available-libraries -->
+
+	<script>
+	  // Your web app's Firebase configuration
+	  var firebaseConfig = {
+	    apiKey: "AIzaSyBBJzCevfFhRKDeEAGEb9Kp2mw0olMqAZQ",
+	    authDomain: "chantawat-chaiodom-answer.firebaseapp.com",
+	    databaseURL: "https://chantawat-chaiodom-answer.firebaseio.com",
+	    projectId: "chantawat-chaiodom-answer",
+	    storageBucket: "chantawat-chaiodom-answer.appspot.com",
+	    messagingSenderId: "1015378267709"
+	  };
+	  // Initialize Firebase
+	  firebase.initializeApp(firebaseConfig);
+	</script>
+	<script src="jquery.md5.js" charset="utf-8"></script>
+	<script src="index.js" charset="utf-8"></script>
+</html>
